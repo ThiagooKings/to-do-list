@@ -20,3 +20,8 @@ model User {
   password   String
   created_at DateTime @default(now())
 }
+
+model Status {
+  id   String @id @default(uuid())
+  name String
+}
