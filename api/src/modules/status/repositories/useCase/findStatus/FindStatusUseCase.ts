@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { IStatusRepository } from "../../IStatusRepository";
+
 import { AppError } from "../../../../../errors/AppError";
+import { IStatusRepository } from "../../IStatusRepository";
 
 @injectable()
 class FindStatusUseCase {

@@ -3,6 +3,7 @@ import { ICreateUsersDTO } from "../../../dtos/ICreateUsersDTO";
 import { IUsersRepository } from "../../IUsersRepository";
 import { hash } from "bcrypt";
 import { AppError } from "../../../../../errors/AppError";
+import { User } from "@prisma/client";
 
 @injectable()
 class CreateUserUseCase {
@@ -11,7 +12,7 @@ class CreateUserUseCase {
     private userRepository: IUsersRepository
   ){ }
 
-  async execute ({name, email, password }: ICreateUsersDTO){
+  async execute ({name, email, password }: ICreateUsersDTO): Promise<User>{
 
     const userAlreadyExists = await this.userRepository.findByEmail(email);
 
