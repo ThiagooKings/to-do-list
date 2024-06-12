@@ -3,7 +3,7 @@ import { ICreateStatusDTO } from "../dtos/ICreateStatusDTO"
 
 interface IStatusRepository {
   findAll(): Promise<Status[]>
-  create({name}: ICreateStatusDTO): Promise<Status>
+  create({name, nameOnBoard}: ICreateStatusDTO): Promise<Status>
 }
 
 export {IStatusRepository }

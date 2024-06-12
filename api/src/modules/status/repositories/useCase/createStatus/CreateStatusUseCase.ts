@@ -11,9 +11,9 @@ class CreateStatusUseCase {
     private statusRepository: IStatusRepository
   ){ }
 
-  async execute ({ name }: ICreateStatusDTO):Promise<Status>{
+  async execute ({ name, nameOnBoard }: ICreateStatusDTO):Promise<Status>{
 
-    const status = await this.statusRepository.create({ name });
+    const status = await this.statusRepository.create({ name, nameOnBoard });
 
     return status
   }

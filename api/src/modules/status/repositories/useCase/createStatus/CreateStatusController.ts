@@ -7,10 +7,10 @@ class CreateStatusController {
 
   async handle(request: Request, response: Response) {
 
-    const {name} = request.body;
+    const {name, nameOnBoard} = request.body;
     const createStatusUseCase = container.resolve(CreateStatusUseCase);
 
-    const status = await createStatusUseCase.execute({ name });
+    const status = await createStatusUseCase.execute({ name, nameOnBoard });
 
     return response.status(201).json(status);
   }

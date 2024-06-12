@@ -4,9 +4,9 @@ import prismaClient from "../../../../prisma";
 import { ICreateStatusDTO } from "../../dtos/ICreateStatusDTO";
 
 class StatusRepository implements IStatusRepository {
-  async create({name}: ICreateStatusDTO): Promise<Status> {
+  async create({name, nameOnBoard}: ICreateStatusDTO): Promise<Status> {
 
-    const status = await prismaClient.status.create({data: {name: name}});
+    const status = await prismaClient.status.create({data: {name, nameOnBoard}});
 
     return status;
   }
