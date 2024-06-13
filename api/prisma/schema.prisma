@@ -14,12 +14,12 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String       @id @default(uuid())
   name       String
-  email      String   @unique
+  email      String       @unique
   password   String
-  created_at DateTime @default(now())
-  boards     Board[]
+  created_at DateTime     @default(now())
+  boards     Board_User[]
 }
 
 model Status {
@@ -31,9 +31,20 @@ model Status {
 }
 
 model Board {
-  id         String   @id @default(uuid())
+  id         String       @id @default(uuid())
   name       String
-  created_at DateTime @default(now())
+  created_at DateTime     @default(now())
   status     Status[]
-  users      User[]
+  users      Board_User[]
+}
+
+model Board_User {
+  board       Board    @relation(fields: [boardId], references: [id])
+  boardId     String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  included_at DateTime @default(now())
+  isAdmin     Boolean  @default(false)
+
+  @@id([boardId, userId])
 }

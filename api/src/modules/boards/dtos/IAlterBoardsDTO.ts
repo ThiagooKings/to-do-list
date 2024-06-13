@@ -2,7 +2,10 @@ import { Status, User } from "@prisma/client";
 
 interface IAlterBoardsDTO {
   status: Status[];
-  users: User[];
+  usersOnBoard: [{
+    user: User,
+    isAdmin: boolean
+   }];
  }
 
  export { IAlterBoardsDTO }

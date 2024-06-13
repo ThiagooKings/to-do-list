@@ -1,9 +1,17 @@
-import { Status, User } from "@prisma/client";
+interface IStatusDTO {
+  name: string;
+  nameOnBoard: string;
+}
 
+interface IUserDTO {
+userId: string,
+isAdmin: boolean
+
+}
 interface ICreateBoardsDTO {
   name: string;
-  status: Status[];
-  users: User[];
+  status: IStatusDTO[];
+  usersOnBoard: IUserDTO[];
  }
 
  export {ICreateBoardsDTO }
