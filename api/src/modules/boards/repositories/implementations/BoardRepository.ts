@@ -3,12 +3,17 @@ import { IAlterBoardsDTO } from "../../dtos/IAlterBoardsDTO";
 import { ICreateBoardsDTO } from "../../dtos/ICreateBoardsDTO";
 import { IBoardsRepository } from "../IBoardsRepository";
 import prismaClient from "../../../../prisma";
-import { v4 as uuidv4 } from 'uuid';
+import { AppError } from "../../../../errors/AppError";
 
 
 class BoardRepository implements IBoardsRepository {
  async create({ name, status, usersOnBoard }: ICreateBoardsDTO): Promise<Board> {
 
+  if (!usersOnBoard || (usersOnBoard && usersOnBoard.length === 0) ||
+     (!usersOnBoard.find(user => (user.isAdmin)))) {
+
+    throw new AppError("You must include at least one admin user when creating a new board!");
+  }
     const board = await prismaClient.board.create({
       data: {
         name,
