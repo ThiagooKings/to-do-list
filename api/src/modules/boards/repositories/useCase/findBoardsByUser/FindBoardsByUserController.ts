@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { FindBoardByUserUseCase } from "./FindBoardByUserUseCase";
+import { FindBoardsByUserUseCase } from "./FindBoardsByUserUseCase";
 
-class FindBoardByUserController {
+class FindBoardsByUserController {
   async handle(request: Request, response: Response) {
     const { userId } = request.params;
 
-    const findBoardByUserUseCase = container.resolve(FindBoardByUserUseCase);
+    const findBoardByUserUseCase = container.resolve(FindBoardsByUserUseCase);
 
     const boards = await findBoardByUserUseCase.execute({ userId });
 
@@ -14,4 +14,4 @@ class FindBoardByUserController {
   }
 }
 
-export { FindBoardByUserController };
+export { FindBoardsByUserController };

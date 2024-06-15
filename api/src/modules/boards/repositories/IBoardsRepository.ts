@@ -6,7 +6,7 @@ interface IBoardsRepository {
   create({ name, status, usersOnBoard }: ICreateBoardsDTO): Promise<Board>;
   alter({ status, usersOnBoard }: IAlterBoardsDTO): Promise<Board>;
   findByUser(userId: string): Promise<Board[]>;
-  findBoard(boardId: string): Promise<Board>;
+  find(boardId: string): Promise<Board>;
 }
 
 export { IBoardsRepository };

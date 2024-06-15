@@ -39,10 +39,18 @@ class BoardRepository implements IBoardsRepository {
     throw new Error("Method not implemented.");
   }
 
-  findBoard(
-    boardId: string
-  ): Promise<{ id: string; name: string; created_at: Date }> {
-    throw new Error("Method not implemented.");
+  async find(boardId: string): Promise<Board> {
+    const board = await prismaClient.board.findUnique({
+      where: {
+        id: boardId,
+      },
+      include: {
+        status: true,
+        users: true,
+      },
+    });
+
+    return board;
   }
 
   async findByUser(userId: string): Promise<Board[]> {
@@ -53,6 +61,10 @@ class BoardRepository implements IBoardsRepository {
             userId: userId,
           },
         },
+      },
+      include: {
+        status: true,
+        users: true,
       },
     });
 
