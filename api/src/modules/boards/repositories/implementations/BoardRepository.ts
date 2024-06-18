@@ -35,8 +35,35 @@ class BoardRepository implements IBoardsRepository {
 
     return board;
   }
-  alter({ status, usersOnBoard }: IAlterBoardsDTO): Promise<Board> {
-    throw new Error("Method not implemented.");
+  async alter({
+    boardId,
+    status,
+    usersOnBoard,
+  }: IAlterBoardsDTO): Promise<Board> {
+    const board = await prismaClient.board.update({
+      data: {
+        status: {
+          update: status.map((e) => ({
+            data: {
+              nameOnBoard: e.nameOnBoard,
+            },
+            where: {
+              id: e.id,
+            },
+          })),
+        },
+        users: {
+          connect: usersOnBoard.map((e) => ({
+            boardId_userId: { userId: e.userId, boardId: boardId },
+          })),
+        },
+      },
+      where: {
+        id: boardId,
+      },
+    });
+
+    return board;
   }
 
   async find(boardId: string): Promise<Board> {
