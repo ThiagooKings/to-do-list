@@ -38,7 +38,9 @@ class BoardRepository implements IBoardsRepository {
   async alter({
     boardId,
     status,
+    oldStatusIds,
     usersOnBoard,
+    oldUsersOnBoardIds,
   }: IAlterBoardsDTO): Promise<Board> {
     const board = await prismaClient.board.update({
       data: {
@@ -51,15 +53,31 @@ class BoardRepository implements IBoardsRepository {
               id: e.id,
             },
           })),
+          delete: oldStatusIds.map((e) => ({
+            id: e,
+          })),
         },
         users: {
-          connect: usersOnBoard.map((e) => ({
-            boardId_userId: { userId: e.userId, boardId: boardId },
+          connectOrCreate: usersOnBoard.map((e) => ({
+            where: {
+              boardId_userId: { userId: e.userId, boardId: boardId },
+            },
+            create: {
+              userId: e.userId,
+              isAdmin: e.isAdmin,
+            },
+          })),
+          delete: oldUsersOnBoardIds.map((e) => ({
+            boardId_userId: { boardId: boardId, userId: e },
           })),
         },
       },
       where: {
         id: boardId,
+      },
+      include: {
+        status: true,
+        users: true,
       },
     });
 

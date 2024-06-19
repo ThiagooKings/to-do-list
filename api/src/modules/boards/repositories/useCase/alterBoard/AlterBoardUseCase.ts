@@ -1,7 +1,5 @@
 import { inject, injectable } from "tsyringe";
 import { IBoardsRepository } from "../../IBoardsRepository";
-import { IAlterBoardsDTO } from "../../../dtos/IAlterBoardsDTO";
-import prismaClient from "../../../../../prisma";
 import { AppError } from "../../../../../errors/AppError";
 import { Board } from "@prisma/client";
 
@@ -12,23 +10,24 @@ class AlterBoardUseCase {
     private boardRepository: IBoardsRepository
   ) {}
 
-  async execute({
-    boardId,
-    status,
-    usersOnBoard,
-  }: IAlterBoardsDTO): Promise<Board> {
-    const board = await prismaClient.board.findUnique({
-      where: { id: boardId },
-    });
+  async execute({ boardId, status, usersOnBoard }): Promise<Board> {
+    const board = await this.boardRepository.find(boardId);
 
     if (!board) {
       throw new AppError("Board does not exist!", 404);
     }
 
+    const oldStatusIds = [];
+    const oldUsersOnBoardIds = [];
+
+    console.log(board);
+
     const updatedBoard = await this.boardRepository.alter({
       boardId,
       status,
       usersOnBoard,
+      oldStatusIds,
+      oldUsersOnBoardIds,
     });
 
     return updatedBoard;

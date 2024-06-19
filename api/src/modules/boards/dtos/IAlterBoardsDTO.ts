@@ -12,7 +12,9 @@ interface IUserDTO {
 interface IAlterBoardsDTO {
   boardId: string;
   status: IStatusDTO[];
+  oldStatusIds: string[];
   usersOnBoard: IUserDTO[];
+  oldUsersOnBoardIds: string[];
 }
 
 export { IAlterBoardsDTO };
